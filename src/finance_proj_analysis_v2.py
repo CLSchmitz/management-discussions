@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
-from xgboost import XGBRegressor
+#from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
@@ -10,9 +10,10 @@ from sklearn.model_selection import GridSearchCV
 import shap
 import seaborn as sns
 import matplotlib.pyplot as plt
+from joblib import dump, load
 
 #Read Data
-df = pd.read_csv('clean_no_drops.csv')
+df = pd.read_csv('../data/processed/clean_no_drops.csv')
 
 #Dropping rows without a date (means parsing didn't work and no data available)
 df = df.dropna(subset = ['date_'])
@@ -95,6 +96,7 @@ train_r2 = r2_score(Y_train, Y_train_pred)
 test_r2 = r2_score(Y_test, Y_test_pred)
 print('Combined model training R2: {}'.format(train_r2.round(2)))
 print('Combined model test R2: {}'.format(test_r2.round(2)))
+dump(model, '../models/comb.joblib')
 
 #Just Quant
 model.fit(X_q_train, Y_train)
@@ -104,6 +106,7 @@ train_r2 = r2_score(Y_train, Y_train_pred)
 test_r2 = r2_score(Y_test, Y_test_pred)
 print('Quant. model training R2: {}'.format(train_r2.round(2)))
 print('Quant. model test R2: {}'.format(test_r2.round(2)))
+dump(model, '../models/quant.joblib')
 
 #Just NLP
 model.fit(X_n_train, Y_train)
@@ -113,9 +116,4 @@ train_r2 = r2_score(Y_train, Y_train_pred)
 test_r2 = r2_score(Y_test, Y_test_pred)
 print('NLP model training R2: {}'.format(train_r2.round(2)))
 print('NLP model test R2: {}'.format(test_r2.round(2)))
-
-# explainer = shap.TreeExplainer(model)
-# shap_values = explainer.shap_values(X_n_test)
-
-# p = shap.summary_plot(shap_values, X_n_test, show=False, matplotlib = True) 
-# display(p)
+dump(model, '../models/nlp.joblib')
