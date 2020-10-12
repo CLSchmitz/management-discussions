@@ -7,7 +7,7 @@ from gensim.test.utils import get_tmpfile
 
 #Reading in Data
 print('reading data')
-deltas_df = pd.read_csv('mgmt_sections_and_compustat_incl_delta_4.csv')
+deltas_df = pd.read_csv('../data/raw/mgmt_sections_and_compustat_incl_delta_4.csv')
 
 #Reformatting from every company having its own row to every report having its own row
 deltas_df.drop(['Unnamed: 0', 'Unnamed: 0.1', 'Unnamed: 0.1.1'], axis = 1, inplace = True)
@@ -73,4 +73,4 @@ final_df = pd.concat([rf_df, report_vectors_df], axis = 1)
 final_df.drop(['report_'], axis = 1, inplace = True)
 
 #Saving DF
-final_df.to_csv('clean_no_drops.csv')
+final_df.to_csv('../data/processed/clean_no_drops.csv')

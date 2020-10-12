@@ -114,8 +114,8 @@ test_r2 = r2_score(Y_test, Y_test_pred)
 print('NLP model training R2: {}'.format(train_r2.round(2)))
 print('NLP model test R2: {}'.format(test_r2.round(2)))
 
-explainer = shap.TreeExplainer(model)
-shap_values = explainer.shap_values(X_n_test)
+# explainer = shap.TreeExplainer(model)
+# shap_values = explainer.shap_values(X_n_test)
 
-p = shap.summary_plot(shap_values, X_n_test, show=False, matplotlib = True) 
-display(p)
+# p = shap.summary_plot(shap_values, X_n_test, show=False, matplotlib = True) 
+# display(p)
