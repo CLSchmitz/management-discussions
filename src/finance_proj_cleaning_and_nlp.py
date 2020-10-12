@@ -73,4 +73,4 @@ final_df = pd.concat([rf_df, report_vectors_df], axis = 1)
 final_df.drop(['report_'], axis = 1, inplace = True)
 
 #Saving DF
-final_df.to_csv('../data/processed/clean_no_drops.csv')
+final_df.to_csv('../data/processed/with_doc_vectors.csv')

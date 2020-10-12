@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from joblib import dump, load
 
 #Read Data
-df = pd.read_csv('../data/processed/clean_no_drops.csv')
+df = pd.read_csv('../data/processed/with_doc_vectors.csv')
 
 #Dropping rows without a date (means parsing didn't work and no data available)
 df = df.dropna(subset = ['date_'])
@@ -42,6 +42,9 @@ cols = ['delta_comprehensive_income_','delta_revenue_','delta_stockholders_equit
 df[cols] = df[cols].replace(to_replace = '#DIV/0!', value = 0)
 for col in cols:
     df[col] = pd.to_numeric(df[col])
+
+#Save final DF
+df.to_csv('../data/processed/final_clean_data.csv')
 
 #X/Y Split
 X = df.drop(y_var, axis = 1)
@@ -82,6 +85,11 @@ X_train = np.nan_to_num(X_train)
 X_test = np.nan_to_num(X_test)
 X_q_train = np.nan_to_num(X_q_train)
 X_q_test = np.nan_to_num(X_q_test)
+
+#Save DFs for Explainer
+np.save('../data/split/X_n_test', X_n_test)
+np.save('../data/split/X_q_test', X_q_test)
+np.save('../data/split/X_test', X_test)
 
 #Initialize model
 model = RandomForestRegressor(n_estimators = 1000,
